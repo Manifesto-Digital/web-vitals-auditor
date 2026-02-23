@@ -689,6 +689,7 @@
 
       // Payload shaped to match what your existing n8n "Prep Prompt" node expects
       const payload = {
+        type:                'triggerAudit',
         url:                 rawUrl,
         domain:              domain,
         client:              client,

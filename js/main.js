@@ -1,5 +1,5 @@
 
-const WEBHOOK_URL = 'https://manifesto.app.n8n.cloud/webhook/c0736ca6-b700-406c-b98c-0ef449f5b6b9';
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbymD2oQN-MIpAJeSMSQZgO-_8abtxhEKJn2E6W5gVNrJLk7dDXymcStpUp2HQTOgmaN/exec';
 
 const form           = document.getElementById('auditForm');
 const urlInput       = document.getElementById('urlInput');

@@ -106,33 +106,25 @@ form.addEventListener('submit', async (e) => {
   try {
     const res = await fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
 
     hideAllStatus();
+    successDetail.textContent = `Audit queued for ${domain}...`;
+    statusSuccess.style.display = 'flex';
+    // Reset form
+    urlInput.value    = '';
+    clientInput.value = '';
+    if (greenHosted) toggleGreen();
 
-    if (res.ok) {
-      successDetail.textContent = `Audit queued for ${domain}. The report will land in a separate 'One off reports' folder in Google Drive within a couple of minutes.`;
-      statusSuccess.style.display = 'flex';
-      addToHistory(rawUrl, greenHosted);
-      // Reset form
-      urlInput.value    = '';
-      clientInput.value = '';
-      if (greenHosted) toggleGreen();
-    } else {
-      const body = await res.text().catch(() => '');
-      errorDetail.textContent = `Webhook returned ${res.status}. ${body ? body.slice(0, 140) : 'No details available.'}`;
+    } catch (err) {
+      hideAllStatus();
+      errorDetail.textContent = `Could not reach the webhook (${err.message}). Check your network and try again.`;
       statusError.style.display = 'flex';
+    } finally {
+      submitBtn.disabled = false;
+      btnText.textContent = 'Run health check';
+      checkReady();
     }
-
-  } catch (err) {
-    hideAllStatus();
-    errorDetail.textContent = `Could not reach the webhook (${err.message}). Check your network and try again.`;
-    statusError.style.display = 'flex';
-  } finally {
-    submitBtn.disabled = false;
-    btnText.textContent = 'Run health check';
-    checkReady();
-  }
 });
